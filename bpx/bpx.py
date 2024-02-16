@@ -75,6 +75,9 @@ class BpxClient:
 
     def sign(self, instruction: str, params: dict):
         sign_str = f"instruction={instruction}" if instruction else ""
+        if 'postOnly' in params:
+            params = params.copy()
+            params['postOnly'] = str(params['postOnly']).lower()
         sorted_params = "&".join(
             f"{key}={value}" for key, value in sorted(params.items())
         )
