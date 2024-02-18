@@ -1,8 +1,8 @@
 # bpx-api-py
-backpack exchange python code
+Backpack Exchange Python code
 
 
-`pip install bpx-api==0.0.1`
+`pip install bpx-api`
 
 ### 好用请Star
 

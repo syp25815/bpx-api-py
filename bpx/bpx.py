@@ -17,6 +17,7 @@ class BpxClient:
         }
         self.api_key = ''
         self.api_secret = ''
+        self.debugTs = 0
         self.window = 5000
 
     def init(self, api_key, api_secret):
@@ -61,26 +62,67 @@ class BpxClient:
 
     # order
 
+    def orderQuery(self, symbol: str, orderId: str, clientId: int = -1):
+        params = {'symbol': symbol}
+        if len(orderId) > 0:
+            params['orderId'] = orderId
+        if clientId > -1:
+            params['clientId'] = clientId
+        return requests.get(url=f'{self.url}api/v1/order', proxies=self.proxies, params=params,
+                            headers=self.sign('orderQuery', params)).json()
+
     def ExeOrder(self, symbol, side, orderType, timeInForce, quantity, price):
         params = {
             'symbol': symbol,
             'side': side,
             'orderType': orderType,
-            'timeInForce': timeInForce,
             'quantity': quantity,
             'price': price
         }
+
+        if len(timeInForce) < 1:
+            params['postOnly'] = True
+        else:
+            params['timeInForce'] = timeInForce
         return requests.post(url=f'{self.url}api/v1/order', proxies=self.proxies, data=json.dumps(params),
                              headers=self.sign('orderExecute', params)).json()
 
+    def orderCancel(self, symbol: str, orderId: str, clientId: int = -1):
+        params = {'symbol': symbol}
+        if len(orderId) > 0:
+            params['orderId'] = orderId
+        if clientId > -1:
+            params['clientId'] = clientId
+        return requests.delete(url=f'{self.url}api/v1/order', proxies=self.proxies, data=json.dumps(params),
+                               headers=self.sign('orderCancel', params)).json()
+
+    def ordersQuery(self, symbol: str):
+        params = {}
+        if len(symbol) > 0:
+            params['symbol'] = symbol
+
+        return requests.get(url=f'{self.url}api/v1/orders', proxies=self.proxies, params=params,
+                            headers=self.sign('orderQueryAll', params)).json()
+
+    def ordersCancel(self, symbol: str):
+        params = {'symbol': symbol}
+        return requests.delete(url=f'{self.url}api/v1/orders', proxies=self.proxies, data=json.dumps(params),
+                               headers=self.sign('orderCancelAll', params)).json()
+
     def sign(self, instruction: str, params: dict):
         sign_str = f"instruction={instruction}" if instruction else ""
+        if 'postOnly' in params:
+            params = params.copy()
+            params['postOnly'] = str(params['postOnly']).lower()
         sorted_params = "&".join(
             f"{key}={value}" for key, value in sorted(params.items())
         )
         if sorted_params:
             sign_str += "&" + sorted_params
         ts = int(time.time() * 1e3)
+
+        if self.debug and self.debugTs > 0:
+            ts = self.debugTs
 
         sign_str += f"&timestamp={ts}&window={self.window}"
         signature_bytes = self.private_key.sign(sign_str.encode())
