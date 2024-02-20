@@ -46,6 +46,19 @@ class BpxClient:
         return requests.get(url=f'{self.url}wapi/v1/capital/withdrawals', proxies=self.proxies, params=params,
                             headers=self.sign('withdrawalQueryAll', params)).json()
 
+    # set withdrawal address:
+    # https://backpack.exchange/settings/withdrawal-addresses?twoFactorWithdrawalAddress=true
+    def withdrawal(self, address: str, symbol: str, blockchain: str, quantity: str):
+        params = {
+            'address': address,
+            'blockchain': blockchain,
+            'quantity': quantity,
+            'symbol': symbol,
+        }
+        return requests.post(url=f'{self.url}wapi/v1/capital/withdrawals', proxies=self.proxies,
+                             data=json.dumps(params),
+                             headers=self.sign('withdraw', params)).text
+
     # history
 
     def orderHistoryQuery(self, symbol: str, limit: int, offset: int):
