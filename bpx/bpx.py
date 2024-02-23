@@ -122,7 +122,9 @@ class BpxClient:
         return requests.delete(url=f'{self.url}api/v1/orders', proxies=self.proxies, data=json.dumps(params),
                                headers=self.sign('orderCancelAll', params)).json()
 
-    def sign(self, instruction: str, params: dict):
+    def sign(self, instruction: str, params=None):
+        if params is None:
+            params = {}
         sign_str = f"instruction={instruction}" if instruction else ""
         if 'postOnly' in params:
             params = params.copy()
@@ -153,3 +155,31 @@ class BpxClient:
             "Content-Type": "application/json; charset=utf-8",
         }
         return headers
+
+    def ws_sign(self, instruction: str, params=None):
+        if params is None:
+            params = {}
+        sign_str = f"instruction={instruction}" if instruction else ""
+        sorted_params = "&".join(
+            f"{key}={value}" for key, value in sorted(params.items())
+        )
+        if sorted_params:
+            sign_str += "&" + sorted_params
+        ts = int(time.time() * 1e3)
+
+        if self.debug and self.debugTs > 0:
+            ts = self.debugTs
+
+        sign_str += f"&timestamp={ts}&window={self.window}"
+        signature_bytes = self.private_key.sign(sign_str.encode())
+        encoded_signature = base64.b64encode(signature_bytes).decode()
+
+        result = [self.api_key, encoded_signature, ts, self.window]
+
+        print(result)
+
+        if self.debug:
+            print(f'Waiting Sign Str: {sign_str}')
+            print(f"Signature: {encoded_signature}")
+
+        return result

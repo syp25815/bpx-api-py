@@ -3,7 +3,7 @@ from bpx.bpx import *
 if __name__ == '__main__':
     bpx = BpxClient()
 
-    bpx.init('', '')
+    bpx.init("teq2s1yuev2Y8SZ7efCtQbPFzlpecHHm01I0N6IPdNI=", "9Z/KIv82cSg4y2fD4MY74ClR7S0O0J0AzN/7Aoe8BCo=")
 
     # print(bpx.depositAddress('Solana'))
     #
@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     bpx.debug = True
 
-    print(bpx.withdrawal("", "USDC", "Solana", "600"))
+    # print(bpx.withdrawal("", "USDC", "Solana", "600"))
 
     # print(bpx.orderQuery('SOL_USDC', '111948072781414400'))
     # print(bpx.ordersQuery(''))
