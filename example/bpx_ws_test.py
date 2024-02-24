@@ -1,6 +1,5 @@
 import rel
 import websocket
-
 from bpx.bpx import *
 
 
@@ -30,6 +29,8 @@ if __name__ == '__main__':
 
     bpx.init("", "")
 
+    print(bpx.depositAddress('Solana'))
+
     # # websocket.WebSocket
     ws = websocket.WebSocketApp("wss://ws.backpack.exchange",
                                 on_open=on_open,
@@ -43,15 +44,11 @@ if __name__ == '__main__':
     params = {
         "method": "SUBSCRIBE",
         "params": ["account.orderUpdate"],
-        "signature": [
-            bpx.ws_sign('subscribe')
-        ],
+        "signature": bpx.ws_sign('subscribe'),
 
     }
 
-    print(json.dumps(params))
-
-    ws.send(json.dumps(params), 1)
+    ws.send(json.dumps(params))
     #
     #
     rel.signal(2, rel.abort)  # Keyboard Interrupt

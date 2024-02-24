@@ -123,30 +123,8 @@ class BpxClient:
                                headers=self.sign('orderCancelAll', params)).json()
 
     def sign(self, instruction: str, params=None):
-        if params is None:
-            params = {}
-        sign_str = f"instruction={instruction}" if instruction else ""
-        if 'postOnly' in params:
-            params = params.copy()
-            params['postOnly'] = str(params['postOnly']).lower()
-        sorted_params = "&".join(
-            f"{key}={value}" for key, value in sorted(params.items())
-        )
-        if sorted_params:
-            sign_str += "&" + sorted_params
         ts = int(time.time() * 1e3)
-
-        if self.debug and self.debugTs > 0:
-            ts = self.debugTs
-
-        sign_str += f"&timestamp={ts}&window={self.window}"
-        signature_bytes = self.private_key.sign(sign_str.encode())
-        encoded_signature = base64.b64encode(signature_bytes).decode()
-
-        if self.debug:
-            print(f'Waiting Sign Str: {sign_str}')
-            print(f"Signature: {encoded_signature}")
-
+        encoded_signature = self.build_sign(instruction, ts, params)
         headers = {
             "X-API-Key": self.api_key,
             "X-Signature": encoded_signature,
@@ -157,29 +135,30 @@ class BpxClient:
         return headers
 
     def ws_sign(self, instruction: str, params=None):
+        ts = int(time.time() * 1e3)
+        encoded_signature = self.build_sign(instruction, ts, params)
+        # 必须将ts、window转为字符串，不然报错： Parse error
+        result = [self.api_key, encoded_signature, str(ts), str(self.window)]
+        return result
+
+    def build_sign(self, instruction: str, ts: int, params=None):
+        sign_str = f"instruction={instruction}" if instruction else ""
         if params is None:
             params = {}
-        sign_str = f"instruction={instruction}" if instruction else ""
+        if 'postOnly' in params:
+            params = params.copy()
+            params['postOnly'] = str(params['postOnly']).lower()
         sorted_params = "&".join(
             f"{key}={value}" for key, value in sorted(params.items())
         )
         if sorted_params:
             sign_str += "&" + sorted_params
-        ts = int(time.time() * 1e3)
-
         if self.debug and self.debugTs > 0:
             ts = self.debugTs
-
         sign_str += f"&timestamp={ts}&window={self.window}"
         signature_bytes = self.private_key.sign(sign_str.encode())
         encoded_signature = base64.b64encode(signature_bytes).decode()
-
-        result = [self.api_key, encoded_signature, ts, self.window]
-
-        print(result)
-
         if self.debug:
             print(f'Waiting Sign Str: {sign_str}')
             print(f"Signature: {encoded_signature}")
-
-        return result
+        return encoded_signature

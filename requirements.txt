@@ -4,3 +4,4 @@ pyotp~=2.9.0
 
 requests[socks]
 websocket-client~=1.6.4
+rel~=0.4.9.6
