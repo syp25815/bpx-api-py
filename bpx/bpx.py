@@ -27,27 +27,41 @@ class BpxClient:
             base64.b64decode(api_secret)
         )
 
+    def _handle_bpx_request(self, url, headers, params=None, r_type='GET'):
+        if r_type == 'GET':
+            response = requests.get(url=url, proxies=self.proxies, headers=headers, params=params)
+        elif r_type == 'POST':
+            response = requests.post(url=url, proxies=self.proxies, headers=headers, data=json.dumps(params))
+        else:
+            response = requests.delete(url=url, proxies=self.proxies, headers=headers, data=json.dumps(params))
+        try:
+            return response.json()
+        except json.JSONDecodeError:
+            return response.text
+
     # capital
     def balances(self):
-        return requests.get(url=f'{self.url}api/v1/capital', proxies=self.proxies,
-                            headers=self.sign('balanceQuery', {})).json()
+        return self._handle_bpx_request(url=f'{self.url}api/v1/capital',
+                                        headers=self.sign('balanceQuery'))
 
     def deposits(self):
-        return requests.get(url=f'{self.url}wapi/v1/capital/deposits', proxies=self.proxies,
-                            headers=self.sign('depositQueryAll', {})).json()
+        return self._handle_bpx_request(url=f'{self.url}wapi/v1/capital/deposits',
+                                        headers=self.sign('depositQueryAll'))
 
     def depositAddress(self, chain: str):
         params = {'blockchain': chain}
-        return requests.get(url=f'{self.url}wapi/v1/capital/deposit/address', proxies=self.proxies, params=params,
-                            headers=self.sign('depositAddressQuery', params)).json()
-
-    def withdrawals(self, limit: int, offset: int):
-        params = {'limit': limit, 'offset': offset}
-        return requests.get(url=f'{self.url}wapi/v1/capital/withdrawals', proxies=self.proxies, params=params,
-                            headers=self.sign('withdrawalQueryAll', params)).json()
+        return self._handle_bpx_request(url=f'{self.url}wapi/v1/capital/deposit/address',
+                                        headers=self.sign('depositAddressQuery', params),
+                                        params=params)
 
     # set withdrawal address:
     # https://backpack.exchange/settings/withdrawal-addresses?twoFactorWithdrawalAddress=true
+    def withdrawals(self, limit: int, offset: int):
+        params = {'limit': limit, 'offset': offset}
+        return self._handle_bpx_request(url=f'{self.url}wapi/v1/capital/withdrawals',
+                                        headers=self.sign('withdrawalQueryAll', params),
+                                        params=params)
+
     def withdrawal(self, address: str, symbol: str, blockchain: str, quantity: str):
         params = {
             'address': address,
@@ -55,23 +69,24 @@ class BpxClient:
             'quantity': quantity,
             'symbol': symbol,
         }
-        return requests.post(url=f'{self.url}wapi/v1/capital/withdrawals', proxies=self.proxies,
-                             data=json.dumps(params),
-                             headers=self.sign('withdraw', params)).text
+        return self._handle_bpx_request(url=f'{self.url}wapi/v1/capital/withdrawals',
+                                        headers=self.sign('withdraw', params),
+                                        params=params,
+                                        r_type='POST')
 
     # history
 
     def orderHistoryQuery(self, symbol: str, limit: int, offset: int):
         params = {'symbol': symbol, 'limit': limit, 'offset': offset}
-        return requests.get(url=f'{self.url}wapi/v1/history/orders', proxies=self.proxies, params=params,
-                            headers=self.sign('orderHistoryQueryAll', params)).json()
+        return self._handle_bpx_request(url=f'{self.url}wapi/v1/history/orders', params=params,
+                                        headers=self.sign('orderHistoryQueryAll', params))
 
     def fillHistoryQuery(self, symbol: str, limit: int, offset: int):
         params = {'limit': limit, 'offset': offset}
         if len(symbol) > 0:
             params['symbol'] = symbol
-        return requests.get(url=f'{self.url}wapi/v1/history/fills', proxies=self.proxies, params=params,
-                            headers=self.sign('fillHistoryQueryAll', params)).json()
+        return self._handle_bpx_request(url=f'{self.url}wapi/v1/history/fills', params=params,
+                                        headers=self.sign('fillHistoryQueryAll', params))
 
     # order
 
@@ -81,8 +96,8 @@ class BpxClient:
             params['orderId'] = orderId
         if clientId > -1:
             params['clientId'] = clientId
-        return requests.get(url=f'{self.url}api/v1/order', proxies=self.proxies, params=params,
-                            headers=self.sign('orderQuery', params)).json()
+        return self._handle_bpx_request(url=f'{self.url}api/v1/order', params=params,
+                                        headers=self.sign('orderQuery', params))
 
     def ExeOrder(self, symbol, side, orderType, timeInForce, quantity, price):
         params = {
@@ -97,8 +112,8 @@ class BpxClient:
             params['postOnly'] = True
         else:
             params['timeInForce'] = timeInForce
-        return requests.post(url=f'{self.url}api/v1/order', proxies=self.proxies, data=json.dumps(params),
-                             headers=self.sign('orderExecute', params)).json()
+        return self._handle_bpx_request(url=f'{self.url}api/v1/order', params=params,
+                                        headers=self.sign('orderExecute', params), r_type='POST')
 
     def orderCancel(self, symbol: str, orderId: str, clientId: int = -1):
         params = {'symbol': symbol}
@@ -106,21 +121,21 @@ class BpxClient:
             params['orderId'] = orderId
         if clientId > -1:
             params['clientId'] = clientId
-        return requests.delete(url=f'{self.url}api/v1/order', proxies=self.proxies, data=json.dumps(params),
-                               headers=self.sign('orderCancel', params)).json()
+        return self._handle_bpx_request(url=f'{self.url}api/v1/order', params=params,
+                                        headers=self.sign('orderCancel', params), r_type='DELETE')
 
     def ordersQuery(self, symbol: str):
         params = {}
         if len(symbol) > 0:
             params['symbol'] = symbol
 
-        return requests.get(url=f'{self.url}api/v1/orders', proxies=self.proxies, params=params,
-                            headers=self.sign('orderQueryAll', params)).json()
+        return self._handle_bpx_request(url=f'{self.url}api/v1/orders', params=params,
+                                        headers=self.sign('orderQueryAll', params))
 
     def ordersCancel(self, symbol: str):
         params = {'symbol': symbol}
-        return requests.delete(url=f'{self.url}api/v1/orders', proxies=self.proxies, data=json.dumps(params),
-                               headers=self.sign('orderCancelAll', params)).json()
+        return self._handle_bpx_request(url=f'{self.url}api/v1/orders', params=params,
+                                        headers=self.sign('orderCancelAll', params), r_type='DELETE')
 
     def sign(self, instruction: str, params=None):
         ts = int(time.time() * 1e3)
