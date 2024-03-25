@@ -8,7 +8,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=773261d2" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=7ec0cab2" />
 
   
   <!--[if lt IE 9]>
@@ -230,39 +230,25 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="bpx.BpxClient.orderCancel">
 <span class="sig-name descname"><span class="pre">orderCancel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orderId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clientId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpx.html#BpxClient.orderCancel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpx.BpxClient.orderCancel" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">param symbol<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Market the order exists on.</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>symbol</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Market the order exists on.</p></li>
+<li><p><strong>orderId</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int64</span></code>) – ID of the order.</p></li>
+<li><p><strong>clientId</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int64</span></code>) – Market the order exists on.</p></li>
+</ul>
 </dd>
-<dt class="field-even">type symbol<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Status of canceling the order.</p>
 </dd>
-<dt class="field-odd">param orderId<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ID of the order.</p>
-</dd>
-<dt class="field-even">type orderId<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int64</span></code></p>
-</dd>
-<dt class="field-odd">param clientId<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Market the order exists on.</p>
-</dd>
-<dt class="field-even">type clientId<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int64</span></code></p>
-</dd>
-<dt class="field-odd">return<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Status of canceling the order.</p>
-</dd>
-<dt class="field-even">rtype<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>One of <code class="docutils literal notranslate"><span class="pre">orderId</span></code> or <code class="docutils literal notranslate"><span class="pre">clientId</span></code> must be specified. If both are specified, then <code class="docutils literal notranslate"><span class="pre">orderId</span></code> takes precedence.</p>
 </div>
-</div></blockquote>
-<p><a href="#id1"><span class="problematic" id="id2">`</span></a></p>
 </dd></dl>
 
 <dl class="py method">
@@ -350,7 +336,7 @@
 <li><p><strong>address</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Address to withdraw to.</p></li>
 <li><p><strong>symbol</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Blockchain to withdraw on.</p></li>
 <li><p><strong>blockchain</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Quantity to withdraw.</p></li>
-<li><p><strong>quantity</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Symbol of the asset to withdraw.</p></li>
+<li><p><strong>quantity</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Symbol of the asset to withdraw.</p></li>
 <li><p><strong>twoFactorToken</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Issued two factor token.</p></li>
 </ul>
 </dd>

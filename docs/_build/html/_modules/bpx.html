@@ -7,7 +7,7 @@
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=773261d2" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=7ec0cab2" />
 
   
   <!--[if lt IE 9]>
@@ -201,7 +201,7 @@
 <span class="sd">        :param blockchain: Quantity to withdraw.</span>
 <span class="sd">        :type blockchain: :class:`str`</span>
 <span class="sd">        :param quantity: Symbol of the asset to withdraw.</span>
-<span class="sd">        :type quantity: :class:`str`</span>
+<span class="sd">        :type quantity: :class:`float`</span>
 <span class="sd">        :param twoFactorToken: Issued two factor token.</span>
 <span class="sd">        :type twoFactorToken: :class:`str`</span>
 <span class="sd">        :return: Requests a withdrawal from the exchange.</span>
@@ -365,7 +365,6 @@
 <a class="viewcode-back" href="../bpx.html#bpx.BpxClient.orderCancel">[docs]</a>
     <span class="k">def</span> <span class="nf">orderCancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">orderId</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">clientId</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">        :param symbol: Market the order exists on.</span>
 <span class="sd">        :type symbol: :class:`str`</span>
 <span class="sd">        :param orderId: ID of the order.</span>
@@ -378,7 +377,7 @@
 <span class="sd">        .. note::</span>
 
 <span class="sd">            One of ``orderId`` or ``clientId`` must be specified. If both are specified, then ``orderId`` takes precedence.</span>
-<span class="sd">`</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;symbol&#39;</span><span class="p">:</span> <span class="n">symbol</span><span class="p">}</span>

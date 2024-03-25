@@ -109,7 +109,7 @@ class BpxClient:
         :param blockchain: Quantity to withdraw.
         :type blockchain: :class:`str`
         :param quantity: Symbol of the asset to withdraw.
-        :type quantity: :class:`str`
+        :type quantity: :class:`float`
         :param twoFactorToken: Issued two factor token.
         :type twoFactorToken: :class:`str`
         :return: Requests a withdrawal from the exchange.
@@ -258,7 +258,6 @@ class BpxClient:
 
     def orderCancel(self, symbol: str, orderId: str = None, clientId: int = None):
         """
-
         :param symbol: Market the order exists on.
         :type symbol: :class:`str`
         :param orderId: ID of the order.
@@ -271,7 +270,7 @@ class BpxClient:
         .. note::
 
             One of ``orderId`` or ``clientId`` must be specified. If both are specified, then ``orderId`` takes precedence.
-`
+
         """
 
         params = {'symbol': symbol}
