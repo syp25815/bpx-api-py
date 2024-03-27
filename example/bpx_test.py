@@ -2,7 +2,7 @@ from bpx.bpx import *
 
 if __name__ == '__main__':
     proxies = {'http': 'http://127.0.0', 'https': 'http://127.0.0.'}
-    bpx = BpxClient("mGdcu6JpPtErk/5OrAUU61RKmPqMLaI62fyxYsIMqkM=", "3+OeXRKtDCBtU3w9/gxKm/2RfWhkYfYDx73M/a+deJ0=")
+    bpx = BpxClient("DvnuXR7tcf/zDqssS1DKOqEQ6vprBBDNAh7kMTUQ/eM=", "iCuYkzOOe5aXdtzgmYr3pDLKyCS6zKlZIW+91bATlkM=")
 
 
     # print(bpx.depositAddress('Solana'))
@@ -28,5 +28,5 @@ if __name__ == '__main__':
     # print(bpx.fillHistoryQuery('SOL_USDC', 100, 0, 0, 1000000000000000000))
     #
     # print(bpx.ExeOrder('SOL_USDC', 'Bid', 'Limit', 'IOC', '0.1', '116.35'))
-    # print(bpx.ExeOrder('SOL_USDC', 'Bid', 'Limit', '', '1', '13'))
+    print(bpx.ExeOrder('SOL_USDC', 'Bid', 'Limit', quantity=0.01, timeInForce="IOC"))
 

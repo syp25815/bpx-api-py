@@ -208,7 +208,7 @@ class BpxClient:
                                         headers=self._sign('orderQuery', params))
 
     def ExeOrder(self, symbol: str, side: str, orderType: str,
-                 timeInForce: str, quantity: float, price: float, triggerPrice: float,
+                 timeInForce: str, quantity: float, price: float = 0, triggerPrice: float = 0,
                  selfTradePrevention: str = "RejectBoth", quoteQuantity: float = None,
 
                  ):
@@ -242,9 +242,10 @@ class BpxClient:
             'side': side,
             'orderType': orderType,
             'quantity': quantity,
-            'price': price,
             'selfTradePrevention': selfTradePrevention,
         }
+        if price:
+            params['price'] = price
         if triggerPrice:
             params['triggerPrice'] = triggerPrice
         if quoteQuantity:
