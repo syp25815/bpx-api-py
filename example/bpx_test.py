@@ -3,9 +3,9 @@ from bpx.bpx import *
 if __name__ == '__main__':
     bpx = BpxClient()
 
-    bpx.init("teq2s1yuev2Y8SZ7efCtQbPFzlpecHHm01I0N6IPdNI=", "9Z/KIv82cSg4y2fD4MY74ClR7S0O0J0AzN/7Aoe8BCo=")
+    bpx.init("T/NyhImyTeSHIUwblbxCGi9GhQHuwIPchW5Uqv91CFc=", "")
 
-    # print(bpx.depositAddress('Solana'))
+    print(bpx.depositAddress('Bitcoin'))
     #
     # print(bpx.balances())
     # print(bpx.deposits())

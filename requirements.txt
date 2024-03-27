@@ -1,5 +1,5 @@
 requests~=2.31.0
-cryptography~=42.0.2
+cryptography~=42.0.5
 pyotp~=2.9.0
 
 requests[socks]
