@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 .idea
 venv
+.venv
 setup.py
 bpx.egg-info
 build

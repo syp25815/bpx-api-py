@@ -25,9 +25,8 @@ def on_open(ws):
 
 
 if __name__ == '__main__':
-    bpx = BpxClient()
+    bpx = BpxClient("", "")
 
-    bpx.init("", "")
 
     print(bpx.depositAddress('Solana'))
 
@@ -44,7 +43,7 @@ if __name__ == '__main__':
     params = {
         "method": "SUBSCRIBE",
         "params": ["account.orderUpdate"],
-        "signature": bpx.ws_sign('subscribe'),
+        "signature": bpx._ws_sign('subscribe'),
 
     }
 

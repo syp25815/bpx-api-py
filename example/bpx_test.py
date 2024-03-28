@@ -1,16 +1,17 @@
 from bpx.bpx import *
 
 if __name__ == '__main__':
-    bpx = BpxClient()
+    proxies = {'http': 'http://127.0.0', 'https': 'http://127.0.0.'}
+    bpx = BpxClient("DvnuXR7tcf/zDqssS1DKOqEQ6vprBBDNAh7kMTUQ/eM=", "iCuYkzOOe5aXdtzgmYr3pDLKyCS6zKlZIW+91bATlkM=")
 
-    bpx.init("teq2s1yuev2Y8SZ7efCtQbPFzlpecHHm01I0N6IPdNI=", "9Z/KIv82cSg4y2fD4MY74ClR7S0O0J0AzN/7Aoe8BCo=")
 
     # print(bpx.depositAddress('Solana'))
     #
     # print(bpx.balances())
-    # print(bpx.deposits())
+
+    print(bpx.deposits())
     # #
-    # print(bpx.withdrawals(10, 0))
+    # print(bpx.get_withdrawals(10, 0))
 
     bpx.debug = True
 
@@ -24,9 +25,8 @@ if __name__ == '__main__':
 
     #
     # print(bpx.orderHistoryQuery('SOL_USDC', 10, 0))
-    # print(bpx.fillHistoryQuery('SOL_USDC', 10, 0))
-    # bpx.proxies = {'http': 'http://127.0.0', 'https': 'http://127.0.0.'}
+    # print(bpx.fillHistoryQuery('SOL_USDC', 100, 0, 0, 1000000000000000000))
     #
     # print(bpx.ExeOrder('SOL_USDC', 'Bid', 'Limit', 'IOC', '0.1', '116.35'))
-    # print(bpx.ExeOrder('SOL_USDC', 'Bid', 'Limit', '', '1', '13'))
-    #
+    print(bpx.ExeOrder('SOL_USDC', 'Bid', 'Limit', quantity=0.01, timeInForce="IOC"))
+
