@@ -5,7 +5,7 @@ if __name__ == '__main__':
     bpx = BpxClient("DvnuXR7tcf/zDqssS1DKOqEQ6vprBBDNAh7kMTUQ/eM=", "iCuYkzOOe5aXdtzgmYr3pDLKyCS6zKlZIW+91bATlkM=")
 
 
-    # print(bpx.depositAddress('Solana'))
+    print(bpx.depositAddress('Bitcoin'))
     #
     # print(bpx.balances())
 
