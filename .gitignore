@@ -9,3 +9,4 @@ bpx.egg-info
 build
 dist
 *.egg-info/*
+_build
